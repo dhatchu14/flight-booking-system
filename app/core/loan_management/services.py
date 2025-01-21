@@ -1,6 +1,7 @@
 from .aggregates import LoanAggregate
 from .repositories import LoanRepository
 from datetime import date
+from .models import Loan  
 
 class LoanService:
     def __init__(self, loan_repo: LoanRepository, book_repo):
