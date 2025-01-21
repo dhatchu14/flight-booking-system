@@ -11,4 +11,3 @@ class Loan(BaseModel):
 
     def mark_as_returned(self):
         self.return_date = date.today()
-
