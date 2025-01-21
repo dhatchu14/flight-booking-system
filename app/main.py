@@ -1,5 +1,10 @@
 from fastapi import FastAPI
-from api.routes import router  # Import the combined routes
+from app.api.routes import router
+from app.core.book_management.services import BookService
+from app.core.user_management.services import UserService
+from app.core.loan_management.services import LoanService
+
+
 
 app = FastAPI()
 
