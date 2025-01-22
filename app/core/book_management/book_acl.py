@@ -1,20 +1,20 @@
+from fastapi import APIRouter, HTTPException
 from .models import Book
-from .repositories import BookRepository
+from .services import add_book, get_books, get_book
 
-class BookACL:
-    def __init__(self, book_repo: BookRepository):
-        self.book_repo = book_repo
+book_router = APIRouter()
 
-    def get_book_by_isbn(self, isbn: str) -> Book:
-        book = self.book_repo.get_by_isbn(isbn)
-        if not book:
-            raise ValueError("Book not found")
-        return book
+@book_router.post("/")
+def create_book(book: Book):
+    return add_book(book)
 
-    def add_book(self, title: str, author: str, isbn: str) -> Book:
-        existing_book = self.book_repo.get_by_isbn(isbn)
-        if existing_book:
-            raise ValueError("Book with this ISBN already exists")
-        book = Book(title=title, author=author, isbn=isbn)
-        self.book_repo.add(book)
-        return book
+@book_router.get("/")
+def list_books():
+    return get_books()
+
+@book_router.get("/{book_id}")
+def get_book_details(book_id: int):
+    book = get_book(book_id)
+    if not book:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return book
